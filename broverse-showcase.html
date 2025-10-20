@@ -1,0 +1,1911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BroVerse - Universal Web3 Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- VER$EID Card System Styles -->
+    <link rel="stylesheet" href="verseid-styles.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Dark theme base - VER$EID v3.0 */
+            --bg-primary: #0A0A0A;
+            --bg-secondary: rgba(26, 26, 36, 0.6);
+            --bg-card: rgba(26, 26, 36, 0.6);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-muted: rgba(255, 255, 255, 0.4);
+
+            /* Pathway colors - exact VER$EID match */
+            --align-blue: rgba(96, 165, 250, 0.05);
+            --align-accent: #60A5FA;
+            --alpha-orange: rgba(251, 146, 60, 0.05);
+            --alpha-accent: #FB923C;
+            --karma-purple: rgba(167, 139, 250, 0.05);
+            --karma-accent: #A78BFA;
+            --synergy-green: rgba(74, 222, 128, 0.05);
+            --synergy-accent: #4ADE80;
+
+            /* Utility */
+            --border: rgba(255, 255, 255, 0.08);
+            --glow: rgba(0, 195, 255, 0.15);
+            --transition: 200ms ease-in-out;
+
+            /* Grid */
+            --grid: 8px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 280px;
+            background: var(--bg-secondary);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid var(--border);
+            padding: calc(var(--grid) * 4);
+            display: flex;
+            flex-direction: column;
+            gap: calc(var(--grid) * 4);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding-bottom: calc(var(--grid) * 3);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            font-family: 'DM Sans', sans-serif;
+            color: #00C3FF;
+            text-shadow: 0 0 40px rgba(0, 195, 255, 0.3);
+            letter-spacing: -0.5px;
+            text-transform: uppercase;
+        }
+
+        .nav-section {
+            display: flex;
+            flex-direction: column;
+            gap: calc(var(--grid) * 1);
+        }
+
+        .nav-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            font-weight: 600;
+            padding-left: calc(var(--grid) * 2);
+            margin-bottom: calc(var(--grid) * 1);
+        }
+
+        .nav-item {
+            padding: calc(var(--grid) * 2) calc(var(--grid) * 2);
+            border-radius: calc(var(--grid) * 1.5);
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all var(--transition);
+            display: flex;
+            align-items: center;
+            gap: calc(var(--grid) * 2);
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .nav-item:hover {
+            background: rgba(125, 207, 255, 0.08);
+            color: var(--text-primary);
+            transform: translateX(4px);
+        }
+
+        .nav-item.active {
+            background: rgba(0, 195, 255, 0.12);
+            color: #00C3FF;
+        }
+
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            flex: 1;
+            padding: calc(var(--grid) * 6);
+            max-width: 1400px;
+        }
+
+        .page-header {
+            margin-bottom: calc(var(--grid) * 6);
+        }
+
+        .page-title {
+            font-size: 48px;
+            margin-bottom: calc(var(--grid) * 2);
+            letter-spacing: -1px;
+        }
+
+        .page-description {
+            font-size: 18px;
+            color: var(--text-secondary);
+            max-width: 800px;
+            line-height: 1.7;
+        }
+
+        .highlight {
+            color: #00C3FF;
+            font-weight: 600;
+        }
+
+        /* Pathway Cards */
+        .pathways-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: calc(var(--grid) * 3);
+            margin-bottom: calc(var(--grid) * 8);
+        }
+
+        .pathway-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: calc(var(--grid) * 2);
+            padding: calc(var(--grid) * 4);
+            transition: all var(--transition);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pathway-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--card-accent);
+            opacity: 0;
+            transition: opacity var(--transition);
+        }
+
+        .pathway-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            border-color: var(--card-accent);
+        }
+
+        .pathway-card:hover::before {
+            opacity: 1;
+        }
+
+        .pathway-card.align {
+            --card-accent: var(--align-accent);
+            --card-bg: var(--align-blue);
+            border: 1px solid rgba(96, 165, 250, 0.15);
+        }
+
+        .pathway-card.alpha {
+            --card-accent: var(--alpha-accent);
+            --card-bg: var(--alpha-orange);
+            border: 1px solid rgba(251, 146, 60, 0.15);
+        }
+
+        .pathway-card.karma {
+            --card-accent: var(--karma-accent);
+            --card-bg: var(--karma-purple);
+            border: 1px solid rgba(167, 139, 250, 0.15);
+        }
+
+        .pathway-card.synergy {
+            --card-accent: var(--synergy-accent);
+            --card-bg: var(--synergy-green);
+            border: 1px solid rgba(74, 222, 128, 0.15);
+        }
+
+        .pathway-icon {
+            width: 48px;
+            height: 48px;
+            background: transparent;
+            border-radius: calc(var(--grid) * 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            margin-bottom: calc(var(--grid) * 3);
+            color: var(--card-accent);
+            text-shadow: 0 0 8px currentColor;
+        }
+
+        .pathway-title {
+            font-size: 20px;
+            margin-bottom: calc(var(--grid) * 1);
+            color: var(--text-primary);
+        }
+
+        .pathway-subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: calc(var(--grid) * 2);
+        }
+
+        .pathway-description {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Quest Cards */
+        .quest-section {
+            margin-bottom: calc(var(--grid) * 8);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: calc(var(--grid) * 4);
+        }
+
+        .section-title {
+            font-size: 28px;
+        }
+
+        .view-all-btn {
+            background: rgba(0, 195, 255, 0.1);
+            border: 1px solid rgba(0, 195, 255, 0.2);
+            color: #00C3FF;
+            padding: calc(var(--grid) * 1.5) calc(var(--grid) * 3);
+            border-radius: calc(var(--grid) * 1);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition);
+        }
+
+        .view-all-btn:hover {
+            background: rgba(0, 195, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .quest-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: calc(var(--grid) * 3);
+        }
+
+        .quest-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: calc(var(--grid) * 2);
+            padding: calc(var(--grid) * 3);
+            transition: all var(--transition);
+            cursor: pointer;
+        }
+
+        .quest-card:hover {
+            transform: translateY(-4px);
+            border-color: #00C3FF;
+            box-shadow: 0 8px 24px rgba(0, 195, 255, 0.15);
+        }
+
+        .quest-header {
+            display: flex;
+            align-items: center;
+            gap: calc(var(--grid) * 2);
+            margin-bottom: calc(var(--grid) * 2);
+        }
+
+        .quest-badge {
+            padding: calc(var(--grid) * 0.5) calc(var(--grid) * 1.5);
+            border-radius: calc(var(--grid) * 0.75);
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .quest-badge.easy {
+            background: rgba(115, 220, 167, 0.15);
+            color: var(--synergy-accent);
+        }
+
+        .quest-badge.medium {
+            background: rgba(198, 155, 123, 0.15);
+            color: var(--alpha-accent);
+        }
+
+        .quest-badge.hard {
+            background: rgba(157, 124, 216, 0.15);
+            color: var(--karma-accent);
+        }
+
+        .quest-reward {
+            margin-left: auto;
+            font-weight: 600;
+            color: #00C3FF;
+        }
+
+        .quest-title {
+            font-size: 18px;
+            margin-bottom: calc(var(--grid) * 1);
+        }
+
+        .quest-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: calc(var(--grid) * 2);
+        }
+
+        .quest-progress {
+            background: rgba(255, 255, 255, 0.05);
+            height: 2px;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: calc(var(--grid) * 1);
+        }
+
+        .quest-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #00A1F1, #00C3FF);
+            transition: width 1.5s ease-out;
+        }
+
+        .quest-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity var(--transition);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: calc(var(--grid) * 2);
+            padding: calc(var(--grid) * 6);
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.95);
+            transition: transform var(--transition);
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: calc(var(--grid) * 4);
+        }
+
+        .modal-title {
+            font-size: 32px;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 28px;
+            cursor: pointer;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all var(--transition);
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+
+        .modal-content {
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: calc(var(--grid) * 2);
+            margin-top: calc(var(--grid) * 4);
+        }
+
+        .btn {
+            padding: calc(var(--grid) * 2) calc(var(--grid) * 4);
+            border-radius: calc(var(--grid) * 1);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition);
+            flex: 1;
+            border: none;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00A1F1, #00C3FF);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 195, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.06);
+            color: white;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: calc(var(--grid) * 3);
+            margin-bottom: calc(var(--grid) * 8);
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: calc(var(--grid) * 2);
+            padding: calc(var(--grid) * 3);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 36px;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+            color: white;
+            margin-bottom: calc(var(--grid) * 1);
+            letter-spacing: -1px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .stat-card:nth-child(1) { --stat-color: var(--align-accent); }
+        .stat-card:nth-child(2) { --stat-color: var(--alpha-accent); }
+        .stat-card:nth-child(3) { --stat-color: var(--karma-accent); }
+        .stat-card:nth-child(4) { --stat-color: var(--synergy-accent); }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 240px;
+            }
+            .main-content {
+                margin-left: 240px;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform var(--transition);
+            }
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+                padding: calc(var(--grid) * 3);
+            }
+            .page-title {
+                font-size: 32px;
+            }
+            .pathways-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(125, 207, 255, 0.2);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(125, 207, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">BroVerse</div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-label">Experiences</div>
+                <a href="javascript:void(0)" class="nav-item active" data-page="protocol">
+                    <span class="nav-icon">⚡</span>
+                    PROTOCOL
+                </a>
+                <a href="javascript:void(0)" class="nav-item" data-page="verseid">
+                    <span class="nav-icon">💎</span>
+                    VER$EID
+                </a>
+                <a href="javascript:void(0)" class="nav-item" data-page="brobeats">
+                    <span class="nav-icon">🎵</span>
+                    BROBEATS
+                </a>
+                <a href="javascript:void(0)" class="nav-item" data-page="brovibes">
+                    <span class="nav-icon">✨</span>
+                    BROVIBES
+                </a>
+                <a href="javascript:void(0)" class="nav-item" data-page="brosfit">
+                    <span class="nav-icon">💰</span>
+                    BRO$FIT
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <h1 class="page-title">BroVerse Hub</h1>
+                <p class="page-description">
+                    Your unified <span class="highlight">Web3 identity and reputation</span> across all networks.
+                    Track your BITS, unlock achievements, and explore pathway-based experiences that reward your contributions.
+                </p>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">87,857</div>
+                    <div class="stat-label">Total BITS</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">7,902</div>
+                    <div class="stat-label">Total BEATS</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">7</div>
+                    <div class="stat-label">Networks</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">🥇</div>
+                    <div class="stat-label">Best Tier</div>
+                </div>
+            </div>
+
+            <!-- PROTOCOL Section -->
+            <section class="quest-section page-section" id="protocol" data-page="protocol">
+                <div class="section-header">
+                    <h2 class="section-title">⚡ PROTOCOL</h2>
+                    <button class="view-all-btn">Pathways to Recognition →</button>
+                </div>
+                <p style="color: var(--text-secondary); margin-bottom: calc(var(--grid) * 6); line-height: 1.7; font-size: 18px;">
+                    The foundational framework for building your <strong style="color: #00C3FF;">Web3 reputation</strong> across all networks.
+                    Choose your pathway, earn BITS and BEATS, and unlock tiers through verified contributions.
+                </p>
+
+                <!-- ALIGN Pathway -->
+                <div style="margin-bottom: calc(var(--grid) * 8); padding: calc(var(--grid) * 6); background: linear-gradient(135deg, rgba(96, 165, 250, 0.08) 0%, rgba(96, 165, 250, 0.03) 100%); border-radius: calc(var(--grid) * 3); border: 1px solid rgba(96, 165, 250, 0.15);">
+                    <div style="display: flex; align-items: center; gap: calc(var(--grid) * 3); margin-bottom: calc(var(--grid) * 3);">
+                        <div style="font-size: 48px; color: #60A5FA; text-shadow: 0 0 12px rgba(96, 165, 250, 0.6);">⟡</div>
+                        <div>
+                            <h3 style="font-family: var(--font-display); font-size: 28px; color: white; margin-bottom: calc(var(--grid) * 1);">ALIGN</h3>
+                            <p style="color: rgba(255, 255, 255, 0.6); font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">Identity & Verification</p>
+                        </div>
+                    </div>
+                    <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: calc(var(--grid) * 3);">
+                        Establish your verifiable Web3 identity across multiple chains. Build trust through cryptographic proofs,
+                        social attestations, and zero-knowledge verification protocols.
+                    </p>
+                    <div class="quest-grid">
+                        <div class="quest-card">
+                            <div class="quest-header">
+                                <span class="quest-badge easy" style="background: rgba(96, 165, 250, 0.15); color: #60A5FA;">Foundation</span>
+                                <span class="quest-reward">+8 BITS</span>
+                            </div>
+                            <h3 class="quest-title">Multi-Chain Identity</h3>
+                            <p class="quest-desc">Link verified addresses across 7 networks</p>
+                        </div>
+                        <div class="quest-card">
+                            <div class="quest-header">
+                                <span class="quest-badge medium" style="background: rgba(96, 165, 250, 0.15); color: #60A5FA;">Advanced</span>
+                                <span class="quest-reward">+16 BITS</span>
+                            </div>
+                            <h3 class="quest-title">Social Attestations</h3>
+                            <p class="quest-desc">Get vouched for by trusted community members</p>
+                        </div>
+                        <div class="quest-card">
+                            <div class="quest-header">
+                                <span class="quest-badge hard" style="background: rgba(96, 165, 250, 0.15); color: #60A5FA;">Expert</span>
+                                <span class="quest-reward">+32 BITS</span>
+                            </div>
+                            <h3 class="quest-title">zkKYC Verification</h3>
+                            <p class="quest-desc">Complete privacy-preserving identity verification</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ALPHA Pathway -->
+                <div style="margin-bottom: calc(var(--grid) * 8); padding: calc(var(--grid) * 6); background: linear-gradient(135deg, rgba(251, 146, 60, 0.08) 0%, rgba(251, 146, 60, 0.03) 100%); border-radius: calc(var(--grid) * 3); border: 1px solid rgba(251, 146, 60, 0.15);">
+                    <div style="display: flex; align-items: center; gap: calc(var(--grid) * 3); margin-bottom: calc(var(--grid) * 3);">
+                        <div style="font-size: 48px; color: #FB923C; text-shadow: 0 0 12px rgba(251, 146, 60, 0.6);">α</div>
+                        <div>
+                            <h3 style="font-family: var(--font-display); font-size: 28px; color: white; margin-bottom: calc(var(--grid) * 1);">ALPHA</h3>
+                            <p style="color: rgba(255, 255, 255, 0.6); font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">DeFi Trading</p>
+                        </div>
+                    </div>
+                    <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: calc(var(--grid) * 3);">
+                        Access multi-chain DeFi protocols with sophisticated trading strategies. Leverage AI-powered insights,
+                        automated risk management, and cross-DEX aggregation for optimal returns.
+                    </p>
+                    <div class="quest-grid">
+                        <div class="quest-card">
+                            <div class="quest-header">
+                                <span class="quest-badge easy" style="background: rgba(251, 146, 60, 0.15); color: #FB923C;">Foundation</span>
+                                <span class="quest-reward">+8 BITS</span>
+                            </div>
+                            <h3 class="quest-title">First Swap</h3>
+                            <p class="quest-desc">Execute your first cross-DEX trade</p>
+                        </div>
+                        <div class="quest-card">
+                            <div class="quest-header">
+                                <span class="quest-badge medium" style="background: rgba(251, 146, 60, 0.15); color: #FB923C;">Advanced</span>
+                                <span class="quest-reward">+16 BITS</span>
+                            </div>
+                            <h3 class="quest-title">Liquidity Provider</h3>
+                            <p class="quest-desc">Add liquidity and earn protocol fees</p>
+                        </div>
+                        <div class="quest-card">
+                            <div class="quest-header">
+                                <span class="quest-badge hard" style="background: rgba(251, 146, 60, 0.15); color: #FB923C;">Expert</span>
+                                <span class="quest-reward">+32 BITS</span>
+                            </div>
+                            <h3 class="quest-title">Cross-Chain Arbitrage</h3>
+                            <p class="quest-desc">Execute profitable cross-chain strategies</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KARMA Pathway -->
+                <div style="margin-bottom: calc(var(--grid) * 8); padding: calc(var(--grid) * 6); background: linear-gradient(135deg, rgba(167, 139, 250, 0.08) 0%, rgba(167, 139, 250, 0.03) 100%); border-radius: calc(var(--grid) * 3); border: 1px solid rgba(167, 139, 250, 0.15);">
+                    <div style="display: flex; align-items: center; gap: calc(var(--grid) * 3); margin-bottom: calc(var(--grid) * 3);">
+                        <div style="font-size: 48px; color: #A78BFA; text-shadow: 0 0 12px rgba(167, 139, 250, 0.6);">☯</div>
+                        <div>
+                            <h3 style="font-family: var(--font-display); font-size: 28px; color: white; margin-bottom: calc(var(--grid) * 1);">KARMA</h3>
+                            <p style="color: rgba(255, 255, 255, 0.6); font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">Community Engagement</p>
+                        </div>
+                    </div>
+                    <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: calc(var(--grid) * 3);">
+                        Earn reputation through meaningful contributions. Participate in governance, mentor new users,
+                        and shape the future of the ecosystem through collaborative projects.
+                    </p>
+                    <div class="quest-grid">
+                        <div class="quest-card">
+                            <div class="quest-header">
+                                <span class="quest-badge easy" style="background: rgba(167, 139, 250, 0.15); color: #A78BFA;">Foundation</span>
+                                <span class="quest-reward">+8 BITS</span>
+                            </div>
+                            <h3 class="quest-title">First Vote</h3>
+                            <p class="quest-desc">Cast your vote in governance proposals</p>
+                        </div>
+                        <div class="quest-card">
+                            <div class="quest-header">
+                                <span class="quest-badge medium" style="background: rgba(167, 139, 250, 0.15); color: #A78BFA;">Advanced</span>
+                                <span class="quest-reward">+16 BITS</span>
+                            </div>
+                            <h3 class="quest-title">Community Mentor</h3>
+                            <p class="quest-desc">Help 10 new users complete their first quests</p>
+                        </div>
+                        <div class="quest-card">
+                            <div class="quest-header">
+                                <span class="quest-badge hard" style="background: rgba(167, 139, 250, 0.15); color: #A78BFA;">Expert</span>
+                                <span class="quest-reward">+32 BITS</span>
+                            </div>
+                            <h3 class="quest-title">Protocol Contributor</h3>
+                            <p class="quest-desc">Submit and implement improvement proposals</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SYNERGY Pathway -->
+                <div style="margin-bottom: calc(var(--grid) * 8); padding: calc(var(--grid) * 6); background: linear-gradient(135deg, rgba(74, 222, 128, 0.08) 0%, rgba(74, 222, 128, 0.03) 100%); border-radius: calc(var(--grid) * 3); border: 1px solid rgba(74, 222, 128, 0.15);">
+                    <div style="display: flex; align-items: center; gap: calc(var(--grid) * 3); margin-bottom: calc(var(--grid) * 3);">
+                        <div style="font-size: 48px; color: #4ADE80; text-shadow: 0 0 12px rgba(74, 222, 128, 0.6);">∞</div>
+                        <div>
+                            <h3 style="font-family: var(--font-display); font-size: 28px; color: white; margin-bottom: calc(var(--grid) * 1);">SYNERGY</h3>
+                            <p style="color: rgba(255, 255, 255, 0.6); font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">Network Interoperability</p>
+                        </div>
+                    </div>
+                    <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: calc(var(--grid) * 3);">
+                        Bridge assets and data seamlessly between chains. Enable cross-protocol composability,
+                        unified liquidity pools, and next-generation multi-chain dApps.
+                    </p>
+                    <div class="quest-grid">
+                        <div class="quest-card">
+                            <div class="quest-header">
+                                <span class="quest-badge easy" style="background: rgba(74, 222, 128, 0.15); color: #4ADE80;">Foundation</span>
+                                <span class="quest-reward">+8 BITS</span>
+                            </div>
+                            <h3 class="quest-title">First Bridge</h3>
+                            <p class="quest-desc">Bridge assets between 2 networks</p>
+                        </div>
+                        <div class="quest-card">
+                            <div class="quest-header">
+                                <span class="quest-badge medium" style="background: rgba(74, 222, 128, 0.15); color: #4ADE80;">Advanced</span>
+                                <span class="quest-reward">+16 BITS</span>
+                            </div>
+                            <h3 class="quest-title">Multi-Chain Active</h3>
+                            <p class="quest-desc">Complete actions on all 7 networks</p>
+                        </div>
+                        <div class="quest-card">
+                            <div class="quest-header">
+                                <span class="quest-badge hard" style="background: rgba(74, 222, 128, 0.15); color: #4ADE80;">Expert</span>
+                                <span class="quest-reward">+32 BITS</span>
+                            </div>
+                            <h3 class="quest-title">Cross-Chain Developer</h3>
+                            <p class="quest-desc">Deploy a multi-chain dApp or smart contract</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- BROBEATS Section -->
+            <section class="quest-section page-section" id="brobeats" data-page="brobeats" style="display: none;">
+                <div class="section-header">
+                    <h2 class="section-title">🎵 BROBEATS</h2>
+                    <button class="view-all-btn" onclick="window.open('https://ddv-rhythm-35z8jbh7w-will31s-projects.vercel.app', '_blank')">Play Now →</button>
+                </div>
+                <p style="color: var(--text-secondary); margin-bottom: calc(var(--grid) * 6); line-height: 1.7; font-size: 18px;">
+                    Rhythm-based gameplay where <strong style="color: #FB923C;">perfect timing equals BITS</strong>.
+                    Build combos, unlock multipliers, and compete across 6 agent-themed tracks.
+                </p>
+
+                <!-- ALIGN: Rhythm Mastery -->
+                <div style="margin-bottom: calc(var(--grid) * 8); padding: calc(var(--grid) * 6); background: linear-gradient(135deg, rgba(96, 165, 250, 0.08) 0%, rgba(96, 165, 250, 0.03) 100%); border-radius: calc(var(--grid) * 3); border: 1px solid rgba(96, 165, 250, 0.15);">
+                    <div style="display: flex; align-items: center; gap: calc(var(--grid) * 3); margin-bottom: calc(var(--grid) * 3);">
+                        <div style="font-size: 48px; color: #60A5FA; text-shadow: 0 0 12px rgba(96, 165, 250, 0.6);">⟡</div>
+                        <div>
+                            <h3 style="font-family: var(--font-display); font-size: 28px; color: white; margin-bottom: calc(var(--grid) * 1);">RHYTHM MASTERY</h3>
+                            <p style="color: rgba(255, 255, 255, 0.6); font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">Precision & Timing</p>
+                        </div>
+                    </div>
+                    <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: calc(var(--grid) * 3);">
+                        Master the fundamentals of rhythm gameplay. Hit notes with perfect timing to build your accuracy score and unlock advanced techniques.
+                    </p>
+                    <div class="quest-grid">
+                        <div class="quest-card">
+                            <h3 class="quest-title">🎯 Perfect Hits</h3>
+                            <p class="quest-desc">Land 100 PERFECT notes (±6% timing window)</p>
+                            <div style="margin-top: 12px; color: #60A5FA; font-weight: 600;">+16 BITS per session</div>
+                        </div>
+                        <div class="quest-card">
+                            <h3 class="quest-title">🔥 Combo Streaks</h3>
+                            <p class="quest-desc">Maintain 50+ hit combo without breaking</p>
+                            <div style="margin-top: 12px; color: #60A5FA; font-weight: 600;">+24 BITS per session</div>
+                        </div>
+                        <div class="quest-card">
+                            <h3 class="quest-title">⭐ Full Clear</h3>
+                            <p class="quest-desc">Complete a song with 100% accuracy</p>
+                            <div style="margin-top: 12px; color: #60A5FA; font-weight: 600;">+48 BITS + 1 BEAT</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ALPHA: Competitive Play -->
+                <div style="margin-bottom: calc(var(--grid) * 8); padding: calc(var(--grid) * 6); background: linear-gradient(135deg, rgba(251, 146, 60, 0.08) 0%, rgba(251, 146, 60, 0.03) 100%); border-radius: calc(var(--grid) * 3); border: 1px solid rgba(251, 146, 60, 0.15);">
+                    <div style="display: flex; align-items: center; gap: calc(var(--grid) * 3); margin-bottom: calc(var(--grid) * 3);">
+                        <div style="font-size: 48px; color: #FB923C; text-shadow: 0 0 12px rgba(251, 146, 60, 0.6);">α</div>
+                        <div>
+                            <h3 style="font-family: var(--font-display); font-size: 28px; color: white; margin-bottom: calc(var(--grid) * 1);">COMPETITIVE PLAY</h3>
+                            <p style="color: rgba(255, 255, 255, 0.6); font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">High Scores & Rankings</p>
+                        </div>
+                    </div>
+                    <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: calc(var(--grid) * 3);">
+                        Compete for leaderboard positions and earn bonus BITS through high-score achievements across all difficulty levels.
+                    </p>
+                    <div class="quest-grid">
+                        <div class="quest-card">
+                            <h3 class="quest-title">🏆 Leaderboard Entry</h3>
+                            <p class="quest-desc">Place in top 100 on any song</p>
+                            <div style="margin-top: 12px; color: #FB923C; font-weight: 600;">+32 BITS + 1 BEAT</div>
+                        </div>
+                        <div class="quest-card">
+                            <h3 class="quest-title">🎖️ Top 10 Placement</h3>
+                            <p class="quest-desc">Reach top 10 on any difficulty</p>
+                            <div style="margin-top: 12px; color: #FB923C; font-weight: 600;">+64 BITS + 2 BEATS</div>
+                        </div>
+                        <div class="quest-card">
+                            <h3 class="quest-title">👑 Champion Tier</h3>
+                            <p class="quest-desc">Hold #1 position for 7 days</p>
+                            <div style="margin-top: 12px; color: #FB923C; font-weight: 600;">+128 BITS + 4 BEATS</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KARMA: Song Collection -->
+                <div style="margin-bottom: calc(var(--grid) * 8); padding: calc(var(--grid) * 6); background: linear-gradient(135deg, rgba(167, 139, 250, 0.08) 0%, rgba(167, 139, 250, 0.03) 100%); border-radius: calc(var(--grid) * 3); border: 1px solid rgba(167, 139, 250, 0.15);">
+                    <div style="display: flex; align-items: center; gap: calc(var(--grid) * 3); margin-bottom: calc(var(--grid) * 3);">
+                        <div style="font-size: 48px; color: #A78BFA; text-shadow: 0 0 12px rgba(167, 139, 250, 0.6);">☯</div>
+                        <div>
+                            <h3 style="font-family: var(--font-display); font-size: 28px; color: white; margin-bottom: calc(var(--grid) * 1);">SONG COLLECTION</h3>
+                            <p style="color: rgba(255, 255, 255, 0.6); font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">Complete The Library</p>
+                        </div>
+                    </div>
+                    <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: calc(var(--grid) * 3);">
+                        Complete all tracks with each agent to unlock exclusive rewards and bonus multipliers for future sessions.
+                    </p>
+                    <div class="quest-grid">
+                        <div class="quest-card">
+                            <h3 class="quest-title">🎼 Agent Tracks (6 songs)</h3>
+                            <p class="quest-desc">Jericho, Superhuman, Handlebars, Kamikazee, Global Concepts, Chlorine</p>
+                            <div style="margin-top: 12px; color: #A78BFA; font-weight: 600;">+8 BITS per clear</div>
+                        </div>
+                        <div class="quest-card">
+                            <h3 class="quest-title">💫 Complete Agent</h3>
+                            <p class="quest-desc">Clear all songs for one agent</p>
+                            <div style="margin-top: 12px; color: #A78BFA; font-weight: 600;">+96 BITS + 3 BEATS</div>
+                        </div>
+                        <div class="quest-card">
+                            <h3 class="quest-title">🌟 Full Library</h3>
+                            <p class="quest-desc">Clear all 6 tracks with all agents</p>
+                            <div style="margin-top: 12px; color: #A78BFA; font-weight: 600;">+384 BITS + 12 BEATS</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SYNERGY: Daily Sessions -->
+                <div style="padding: calc(var(--grid) * 6); background: linear-gradient(135deg, rgba(74, 222, 128, 0.08) 0%, rgba(74, 222, 128, 0.03) 100%); border-radius: calc(var(--grid) * 3); border: 1px solid rgba(74, 222, 128, 0.15);">
+                    <div style="display: flex; align-items: center; gap: calc(var(--grid) * 3); margin-bottom: calc(var(--grid) * 3);">
+                        <div style="font-size: 48px; color: #4ADE80; text-shadow: 0 0 12px rgba(74, 222, 128, 0.6);">∞</div>
+                        <div>
+                            <h3 style="font-family: var(--font-display); font-size: 28px; color: white; margin-bottom: calc(var(--grid) * 1);">DAILY SESSIONS</h3>
+                            <p style="color: rgba(255, 255, 255, 0.6); font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">Consistent Practice</p>
+                        </div>
+                    </div>
+                    <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: calc(var(--grid) * 3);">
+                        Build consistency through daily play sessions. Longer streaks unlock higher multipliers for all BITS earned.
+                    </p>
+                    <div class="quest-grid">
+                        <div class="quest-card">
+                            <h3 class="quest-title">📅 Daily Player</h3>
+                            <p class="quest-desc">Play at least 1 song per day for 7 days</p>
+                            <div style="margin-top: 12px; color: #4ADE80; font-weight: 600;">+56 BITS + 1.1x multiplier</div>
+                        </div>
+                        <div class="quest-card">
+                            <h3 class="quest-title">🔥 Hot Streak</h3>
+                            <p class="quest-desc">Maintain 30-day play streak</p>
+                            <div style="margin-top: 12px; color: #4ADE80; font-weight: 600;">+240 BITS + 1.25x multiplier</div>
+                        </div>
+                        <div class="quest-card">
+                            <h3 class="quest-title">⚡ Eternal Rhythm</h3>
+                            <p class="quest-desc">Reach 365-day streak milestone</p>
+                            <div style="margin-top: 12px; color: #4ADE80; font-weight: 600;">+2,920 BITS + 1.5x multiplier</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- BROVIBES Section -->
+            <section class="quest-section page-section" id="brovibes" data-page="brovibes" style="display: none;">
+                <div class="section-header">
+                    <h2 class="section-title">✨ BROVIBES</h2>
+                    <button class="view-all-btn">Coming Soon →</button>
+                </div>
+                <p style="color: var(--text-secondary); margin-bottom: calc(var(--grid) * 4); line-height: 1.7;">
+                    Social discovery and community engagement platform. Connect with other BROs, share achievements, and collaborate on quests.
+                    <strong style="color: #A78BFA;">Launching Q2 2025.</strong>
+                </p>
+                <div class="quest-grid">
+                    <div class="quest-card" style="opacity: 0.6;">
+                        <div class="quest-header">
+                            <span class="quest-badge easy" style="background: rgba(167, 139, 250, 0.15); color: var(--karma-accent);">Soon</span>
+                            <span class="quest-reward">Social Hub</span>
+                        </div>
+                        <h3 class="quest-title">BRO Feed</h3>
+                        <p class="quest-desc">Share achievements and discover trending community content</p>
+                    </div>
+                    <div class="quest-card" style="opacity: 0.6;">
+                        <div class="quest-header">
+                            <span class="quest-badge easy" style="background: rgba(167, 139, 250, 0.15); color: var(--karma-accent);">Soon</span>
+                            <span class="quest-reward">Collaboration</span>
+                        </div>
+                        <h3 class="quest-title">Squad Quests</h3>
+                        <p class="quest-desc">Team up with other players for multiplayer challenges</p>
+                    </div>
+                    <div class="quest-card" style="opacity: 0.6;">
+                        <div class="quest-header">
+                            <span class="quest-badge easy" style="background: rgba(167, 139, 250, 0.15); color: var(--karma-accent);">Soon</span>
+                            <span class="quest-reward">Events</span>
+                        </div>
+                        <h3 class="quest-title">Live Sessions</h3>
+                        <p class="quest-desc">Join community events with special BITS multipliers</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- BRO$FIT Section -->
+            <section class="quest-section page-section" id="brosfit" data-page="brosfit" style="display: none;">
+                <div class="section-header">
+                    <h2 class="section-title">💰 BRO$FIT</h2>
+                    <button class="view-all-btn">Coming Soon →</button>
+                </div>
+                <p style="color: var(--text-secondary); margin-bottom: calc(var(--grid) * 4); line-height: 1.7;">
+                    Advanced DeFi vault strategies and yield optimization. Earn passive BITS through smart contract vaults across multiple chains.
+                    <strong style="color: #4ADE80;">Launching Q3 2025.</strong>
+                </p>
+                <div class="quest-grid">
+                    <div class="quest-card" style="opacity: 0.6;">
+                        <div class="quest-header">
+                            <span class="quest-badge easy" style="background: rgba(74, 222, 128, 0.15); color: var(--synergy-accent);">Soon</span>
+                            <span class="quest-reward">Auto-Vaults</span>
+                        </div>
+                        <h3 class="quest-title">Smart Strategies</h3>
+                        <p class="quest-desc">AI-powered vault allocation with auto-rebalancing</p>
+                    </div>
+                    <div class="quest-card" style="opacity: 0.6;">
+                        <div class="quest-header">
+                            <span class="quest-badge easy" style="background: rgba(74, 222, 128, 0.15); color: var(--synergy-accent);">Soon</span>
+                            <span class="quest-reward">Multi-Chain</span>
+                        </div>
+                        <h3 class="quest-title">Cross-Chain Yields</h3>
+                        <p class="quest-desc">Optimize returns across 7 integrated networks</p>
+                    </div>
+                    <div class="quest-card" style="opacity: 0.6;">
+                        <div class="quest-header">
+                            <span class="quest-badge easy" style="background: rgba(74, 222, 128, 0.15); color: var(--synergy-accent);">Soon</span>
+                            <span class="quest-reward">Risk Management</span>
+                        </div>
+                        <h3 class="quest-title">Safe Strategies</h3>
+                        <p class="quest-desc">Low-risk vaults with consistent BITS generation</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VER$EID Cards Section -->
+            <section class="quest-section page-section" id="verseid-cards" data-page="verseid" style="display: none;">
+                <div class="section-header">
+                    <h2 class="section-title">💎 Your VER$EID Network Cards</h2>
+                    <button class="view-all-btn" onclick="window.open('https://verseid-showcase-pqwy3ejbv-will31s-projects.vercel.app', '_blank')">View Full Showcase →</button>
+                </div>
+
+                <!-- Cards Grid -->
+                <div class="cards-grid">
+                    <!-- Macro Card -->
+                    <div class="card-container">
+                        <div class="card-wrapper" id="macro-wrapper">
+                            <!-- Layer 1: Front -->
+                            <div class="card card-front card-macro">
+                                <div class="card-header">
+                                    <div class="card-logo">
+                                        <span class="card-icon">💎</span>
+                                        <span class="card-name">VER$EID</span>
+                                    </div>
+                                    <div class="owner-id">
+                                        <span class="owner-address">0xAb5...3d2</span>
+                                        <span class="owner-dropdown-icon">▾</span>
+                                    </div>
+                                </div>
+                                <div class="metrics">
+                                    <div class="metric">
+                                        <div class="metric-label">BITS Accumulated</div>
+                                        <div class="metric-value">15,234</div>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill progress-fill-blue" style="width: 76%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="metric">
+                                        <div class="metric-label">BEATS Achieved</div>
+                                        <div class="metric-value">476</div>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill progress-fill-blue" style="width: 62%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pathway-badges">
+                                    <div class="pathway-badge pathway-badge--align" data-pathway="align" data-card="macro">
+                                        <span class="pathway-badge-icon">⟡</span>
+                                        <span class="pathway-badge-name">ALIGN</span>
+                                    </div>
+                                    <div class="pathway-badge pathway-badge--alpha" data-pathway="alpha" data-card="macro">
+                                        <span class="pathway-badge-icon">α</span>
+                                        <span class="pathway-badge-name">ALPHA</span>
+                                    </div>
+                                    <div class="pathway-badge pathway-badge--karma" data-pathway="karma" data-card="macro">
+                                        <span class="pathway-badge-icon">☯</span>
+                                        <span class="pathway-badge-name">KARMA</span>
+                                    </div>
+                                    <div class="pathway-badge pathway-badge--synergy" data-pathway="synergy" data-card="macro">
+                                        <span class="pathway-badge-icon">∞</span>
+                                        <span class="pathway-badge-name">SYNERGY</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Layer 2: Back -->
+                            <div class="card card-back card-macro">
+                                <div class="pathway-detail">
+                                    <div class="pathway-detail-header">
+                                        <div class="pathway-title">
+                                            <span class="pathway-title-icon align-color" id="macro-detail-icon">⟡</span>
+                                            <div class="pathway-title-text">
+                                                <span class="pathway-title-main" id="macro-detail-name">ALIGN</span>
+                                                <span class="pathway-title-sub" id="macro-detail-subtitle">Identity & Verification</span>
+                                            </div>
+                                        </div>
+                                        <div class="back-button" onclick="flipCard('macro', false)">←</div>
+                                    </div>
+                                    <div class="pathway-stats">
+                                        <div class="pathway-stat">
+                                            <div class="pathway-stat-label">BITS</div>
+                                            <div class="pathway-stat-value" id="macro-detail-bits">3,157</div>
+                                        </div>
+                                        <div class="pathway-stat">
+                                            <div class="pathway-stat-label">BEATS</div>
+                                            <div class="pathway-stat-value" id="macro-detail-beats">892</div>
+                                        </div>
+                                    </div>
+                                    <div class="tier-progression">
+                                        <div class="tier-progression-header">
+                                            <span class="tier-current"><span id="macro-tier-emoji">🥈</span> <span id="macro-tier-name">Silver</span></span>
+                                            <span class="tier-next"><span id="macro-tier-progress">892 / 1,500</span> to <span id="macro-tier-next">Gold</span></span>
+                                        </div>
+                                        <div class="tier-progress-bar">
+                                            <div class="tier-progress-fill tier-progress-fill-blue" id="macro-tier-fill" style="width: 59%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="detail-badges" id="macro-detail-badges"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Flare Card -->
+                    <div class="card-container">
+                        <div class="card-wrapper" id="flare-wrapper">
+                            <!-- Layer 1: Front -->
+                            <div class="card card-front card-flare">
+                                <div class="card-header">
+                                    <div class="card-logo">
+                                        <span class="card-icon">🔥</span>
+                                        <span class="card-name">FLARE</span>
+                                    </div>
+                                    <div class="owner-id">
+                                        <span class="owner-address">0xFl4...e8a</span>
+                                        <span class="owner-dropdown-icon">▾</span>
+                                    </div>
+                                </div>
+                                <div class="metrics">
+                                    <div class="metric">
+                                        <div class="metric-label">BITS Accumulated</div>
+                                        <div class="metric-value">8,421</div>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill progress-fill-pink" style="width: 64%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="metric">
+                                        <div class="metric-label">BEATS Achieved</div>
+                                        <div class="metric-value">287</div>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill progress-fill-pink" style="width: 45%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pathway-badges">
+                                    <div class="pathway-badge pathway-badge--align" data-pathway="align" data-card="flare">
+                                        <span class="pathway-badge-icon">⟡</span>
+                                        <span class="pathway-badge-name">ALIGN</span>
+                                    </div>
+                                    <div class="pathway-badge pathway-badge--alpha" data-pathway="alpha" data-card="flare">
+                                        <span class="pathway-badge-icon">α</span>
+                                        <span class="pathway-badge-name">ALPHA</span>
+                                    </div>
+                                    <div class="pathway-badge pathway-badge--karma" data-pathway="karma" data-card="flare">
+                                        <span class="pathway-badge-icon">☯</span>
+                                        <span class="pathway-badge-name">KARMA</span>
+                                    </div>
+                                    <div class="pathway-badge pathway-badge--synergy" data-pathway="synergy" data-card="flare">
+                                        <span class="pathway-badge-icon">∞</span>
+                                        <span class="pathway-badge-name">SYNERGY</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Layer 2: Back -->
+                            <div class="card card-back card-flare">
+                                <div class="pathway-detail">
+                                    <div class="pathway-detail-header">
+                                        <div class="pathway-title">
+                                            <span class="pathway-title-icon align-color" id="flare-detail-icon">⟡</span>
+                                            <div class="pathway-title-text">
+                                                <span class="pathway-title-main" id="flare-detail-name">ALIGN</span>
+                                                <span class="pathway-title-sub" id="flare-detail-subtitle">Oracle Data</span>
+                                            </div>
+                                        </div>
+                                        <div class="back-button" onclick="flipCard('flare', false)">←</div>
+                                    </div>
+                                    <div class="pathway-stats">
+                                        <div class="pathway-stat">
+                                            <div class="pathway-stat-label">BITS</div>
+                                            <div class="pathway-stat-value" id="flare-detail-bits">2,105</div>
+                                        </div>
+                                        <div class="pathway-stat">
+                                            <div class="pathway-stat-label">BEATS</div>
+                                            <div class="pathway-stat-value" id="flare-detail-beats">287</div>
+                                        </div>
+                                    </div>
+                                    <div class="tier-progression">
+                                        <div class="tier-progression-header">
+                                            <span class="tier-current"><span id="flare-tier-emoji">🥉</span> <span id="flare-tier-name">Bronze</span></span>
+                                            <span class="tier-next"><span id="flare-tier-progress">287 / 500</span> to <span id="flare-tier-next">Silver</span></span>
+                                        </div>
+                                        <div class="tier-progress-bar">
+                                            <div class="tier-progress-fill tier-progress-fill-pink" id="flare-tier-fill" style="width: 57%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="detail-badges" id="flare-detail-badges"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Galactica Card -->
+                    <div class="card-container">
+                        <div class="card-wrapper" id="galactica-wrapper">
+                            <!-- Layer 1: Front -->
+                            <div class="card card-front card-galactica">
+                                <div class="card-header">
+                                    <div class="card-logo">
+                                        <span class="card-icon">🌌</span>
+                                        <span class="card-name">GALACTICA</span>
+                                    </div>
+                                    <div class="owner-id">
+                                        <span class="owner-address">0xGal...c4f</span>
+                                        <span class="owner-dropdown-icon">▾</span>
+                                    </div>
+                                </div>
+                                <div class="metrics">
+                                    <div class="metric">
+                                        <div class="metric-label">BITS Accumulated</div>
+                                        <div class="metric-value">12,567</div>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill progress-fill-gold" style="width: 82%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="metric">
+                                        <div class="metric-label">BEATS Achieved</div>
+                                        <div class="metric-value">1,892</div>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill progress-fill-gold" style="width: 89%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pathway-badges">
+                                    <div class="pathway-badge pathway-badge--align" data-pathway="align" data-card="galactica">
+                                        <span class="pathway-badge-icon">⟡</span>
+                                        <span class="pathway-badge-name">ALIGN</span>
+                                    </div>
+                                    <div class="pathway-badge pathway-badge--alpha" data-pathway="alpha" data-card="galactica">
+                                        <span class="pathway-badge-icon">α</span>
+                                        <span class="pathway-badge-name">ALPHA</span>
+                                    </div>
+                                    <div class="pathway-badge pathway-badge--karma" data-pathway="karma" data-card="galactica">
+                                        <span class="pathway-badge-icon">☯</span>
+                                        <span class="pathway-badge-name">KARMA</span>
+                                    </div>
+                                    <div class="pathway-badge pathway-badge--synergy" data-pathway="synergy" data-card="galactica">
+                                        <span class="pathway-badge-icon">∞</span>
+                                        <span class="pathway-badge-name">SYNERGY</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Layer 2: Back -->
+                            <div class="card card-back card-galactica">
+                                <div class="pathway-detail">
+                                    <div class="pathway-detail-header">
+                                        <div class="pathway-title">
+                                            <span class="pathway-title-icon align-color" id="galactica-detail-icon">⟡</span>
+                                            <div class="pathway-title-text">
+                                                <span class="pathway-title-main" id="galactica-detail-name">ALIGN</span>
+                                                <span class="pathway-title-sub" id="galactica-detail-subtitle">zkKYC Identity</span>
+                                            </div>
+                                        </div>
+                                        <div class="back-button" onclick="flipCard('galactica', false)">←</div>
+                                    </div>
+                                    <div class="pathway-stats">
+                                        <div class="pathway-stat">
+                                            <div class="pathway-stat-label">BITS</div>
+                                            <div class="pathway-stat-value" id="galactica-detail-bits">10,295</div>
+                                        </div>
+                                        <div class="pathway-stat">
+                                            <div class="pathway-stat-label">BEATS</div>
+                                            <div class="pathway-stat-value" id="galactica-detail-beats">1,892</div>
+                                        </div>
+                                    </div>
+                                    <div class="tier-progression">
+                                        <div class="tier-progression-header">
+                                            <span class="tier-current"><span id="galactica-tier-emoji">🥇</span> <span id="galactica-tier-name">Gold</span></span>
+                                            <span class="tier-next"><span id="galactica-tier-progress">1,892 / 5,000</span> to <span id="galactica-tier-next">Diamond</span></span>
+                                        </div>
+                                        <div class="tier-progress-bar">
+                                            <div class="tier-progress-fill tier-progress-fill-gold" id="galactica-tier-fill" style="width: 38%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="detail-badges" id="galactica-detail-badges"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BRO$FIT Card -->
+                    <div class="card-container">
+                        <div class="card-wrapper" id="brosfit-wrapper">
+                            <!-- Layer 1: Front -->
+                            <div class="card card-front card-brosfit">
+                                <div class="card-header">
+                                    <div class="card-logo">
+                                        <span class="card-icon">💰</span>
+                                        <span class="card-name">BRO$FIT</span>
+                                    </div>
+                                    <div class="owner-id">
+                                        <span class="owner-address">0xBro...f9d</span>
+                                        <span class="owner-dropdown-icon">▾</span>
+                                    </div>
+                                </div>
+                                <div class="metrics">
+                                    <div class="metric">
+                                        <div class="metric-label">BITS Accumulated</div>
+                                        <div class="metric-value">6,789</div>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill progress-fill-green" style="width: 55%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="metric">
+                                        <div class="metric-label">BEATS Achieved</div>
+                                        <div class="metric-value">623</div>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill progress-fill-green" style="width: 68%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pathway-badges">
+                                    <div class="pathway-badge pathway-badge--align" data-pathway="align" data-card="brosfit">
+                                        <span class="pathway-badge-icon">⟡</span>
+                                        <span class="pathway-badge-name">ALIGN</span>
+                                    </div>
+                                    <div class="pathway-badge pathway-badge--alpha" data-pathway="alpha" data-card="brosfit">
+                                        <span class="pathway-badge-icon">α</span>
+                                        <span class="pathway-badge-name">ALPHA</span>
+                                    </div>
+                                    <div class="pathway-badge pathway-badge--karma" data-pathway="karma" data-card="brosfit">
+                                        <span class="pathway-badge-icon">☯</span>
+                                        <span class="pathway-badge-name">KARMA</span>
+                                    </div>
+                                    <div class="pathway-badge pathway-badge--synergy" data-pathway="synergy" data-card="brosfit">
+                                        <span class="pathway-badge-icon">∞</span>
+                                        <span class="pathway-badge-name">SYNERGY</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Layer 2: Back -->
+                            <div class="card card-back card-brosfit">
+                                <div class="pathway-detail">
+                                    <div class="pathway-detail-header">
+                                        <div class="pathway-title">
+                                            <span class="pathway-title-icon align-color" id="brosfit-detail-icon">⟡</span>
+                                            <div class="pathway-title-text">
+                                                <span class="pathway-title-main" id="brosfit-detail-name">ALIGN</span>
+                                                <span class="pathway-title-sub" id="brosfit-detail-subtitle">Vault Strategies</span>
+                                            </div>
+                                        </div>
+                                        <div class="back-button" onclick="flipCard('brosfit', false)">←</div>
+                                    </div>
+                                    <div class="pathway-stats">
+                                        <div class="pathway-stat">
+                                            <div class="pathway-stat-label">BITS</div>
+                                            <div class="pathway-stat-value" id="brosfit-detail-bits">5,431</div>
+                                        </div>
+                                        <div class="pathway-stat">
+                                            <div class="pathway-stat-label">BEATS</div>
+                                            <div class="pathway-stat-value" id="brosfit-detail-beats">623</div>
+                                        </div>
+                                    </div>
+                                    <div class="tier-progression">
+                                        <div class="tier-progression-header">
+                                            <span class="tier-current"><span id="brosfit-tier-emoji">🥈</span> <span id="brosfit-tier-name">Silver</span></span>
+                                            <span class="tier-next"><span id="brosfit-tier-progress">623 / 1,500</span> to <span id="brosfit-tier-next">Gold</span></span>
+                                        </div>
+                                        <div class="tier-progress-bar">
+                                            <div class="tier-progress-fill tier-progress-fill-green" id="brosfit-tier-fill" style="width: 42%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="detail-badges" id="brosfit-detail-badges"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BROVER$E Card -->
+                    <div class="card-container">
+                        <div class="card-wrapper" id="broverse-wrapper">
+                            <!-- Layer 1: Front -->
+                            <div class="card card-front card-broverse">
+                                <div class="card-header">
+                                    <div class="card-logo">
+                                        <span class="card-icon">💜</span>
+                                        <span class="card-name">BROVER$E</span>
+                                    </div>
+                                    <div class="owner-id">
+                                        <span class="owner-address">0xBrv...a2c</span>
+                                        <span class="owner-dropdown-icon">▾</span>
+                                    </div>
+                                </div>
+                                <div class="metrics">
+                                    <div class="metric">
+                                        <div class="metric-label">BITS Accumulated</div>
+                                        <div class="metric-value">9,823</div>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill progress-fill-violet" style="width: 71%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="metric">
+                                        <div class="metric-label">BEATS Achieved</div>
+                                        <div class="metric-value">1,234</div>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill progress-fill-violet" style="width: 78%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pathway-badges">
+                                    <div class="pathway-badge pathway-badge--align" data-pathway="align" data-card="broverse">
+                                        <span class="pathway-badge-icon">⟡</span>
+                                        <span class="pathway-badge-name">ALIGN</span>
+                                    </div>
+                                    <div class="pathway-badge pathway-badge--alpha" data-pathway="alpha" data-card="broverse">
+                                        <span class="pathway-badge-icon">α</span>
+                                        <span class="pathway-badge-name">ALPHA</span>
+                                    </div>
+                                    <div class="pathway-badge pathway-badge--karma" data-pathway="karma" data-card="broverse">
+                                        <span class="pathway-badge-icon">☯</span>
+                                        <span class="pathway-badge-name">KARMA</span>
+                                    </div>
+                                    <div class="pathway-badge pathway-badge--synergy" data-pathway="synergy" data-card="broverse">
+                                        <span class="pathway-badge-icon">∞</span>
+                                        <span class="pathway-badge-name">SYNERGY</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Layer 2: Back -->
+                            <div class="card card-back card-broverse">
+                                <div class="pathway-detail">
+                                    <div class="pathway-detail-header">
+                                        <div class="pathway-title">
+                                            <span class="pathway-title-icon align-color" id="broverse-detail-icon">⟡</span>
+                                            <div class="pathway-title-text">
+                                                <span class="pathway-title-main" id="broverse-detail-name">ALIGN</span>
+                                                <span class="pathway-title-sub" id="broverse-detail-subtitle">Metaverse Identity</span>
+                                            </div>
+                                        </div>
+                                        <div class="back-button" onclick="flipCard('broverse', false)">←</div>
+                                    </div>
+                                    <div class="pathway-stats">
+                                        <div class="pathway-stat">
+                                            <div class="pathway-stat-label">BITS</div>
+                                            <div class="pathway-stat-value" id="broverse-detail-bits">7,847</div>
+                                        </div>
+                                        <div class="pathway-stat">
+                                            <div class="pathway-stat-label">BEATS</div>
+                                            <div class="pathway-stat-value" id="broverse-detail-beats">1,234</div>
+                                        </div>
+                                    </div>
+                                    <div class="tier-progression">
+                                        <div class="tier-progression-header">
+                                            <span class="tier-current"><span id="broverse-tier-emoji">🥈</span> <span id="broverse-tier-name">Silver</span></span>
+                                            <span class="tier-next"><span id="broverse-tier-progress">1,234 / 1,500</span> to <span id="broverse-tier-next">Gold</span></span>
+                                        </div>
+                                        <div class="tier-progress-bar">
+                                            <div class="tier-progress-fill tier-progress-fill-violet" id="broverse-tier-fill" style="width: 82%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="detail-badges" id="broverse-detail-badges"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ROCKETX Card -->
+                    <div class="card-container">
+                        <div class="card-wrapper" id="rocketx-wrapper">
+                            <!-- Layer 1: Front -->
+                            <div class="card card-front card-rocketx">
+                                <div class="card-header">
+                                    <div class="card-logo">
+                                        <span class="card-icon">🚀</span>
+                                        <span class="card-name">ROCKETX</span>
+                                    </div>
+                                    <div class="owner-id">
+                                        <span class="owner-address">0xRkt...b5e</span>
+                                        <span class="owner-dropdown-icon">▾</span>
+                                    </div>
+                                </div>
+                                <div class="metrics">
+                                    <div class="metric">
+                                        <div class="metric-label">BITS Accumulated</div>
+                                        <div class="metric-value">11,456</div>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill progress-fill-yellow" style="width: 79%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="metric">
+                                        <div class="metric-label">BEATS Achieved</div>
+                                        <div class="metric-value">834</div>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill progress-fill-yellow" style="width: 72%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pathway-badges">
+                                    <div class="pathway-badge pathway-badge--align" data-pathway="align" data-card="rocketx">
+                                        <span class="pathway-badge-icon">⟡</span>
+                                        <span class="pathway-badge-name">ALIGN</span>
+                                    </div>
+                                    <div class="pathway-badge pathway-badge--alpha" data-pathway="alpha" data-card="rocketx">
+                                        <span class="pathway-badge-icon">α</span>
+                                        <span class="pathway-badge-name">ALPHA</span>
+                                    </div>
+                                    <div class="pathway-badge pathway-badge--karma" data-pathway="karma" data-card="rocketx">
+                                        <span class="pathway-badge-icon">☯</span>
+                                        <span class="pathway-badge-name">KARMA</span>
+                                    </div>
+                                    <div class="pathway-badge pathway-badge--synergy" data-pathway="synergy" data-card="rocketx">
+                                        <span class="pathway-badge-icon">∞</span>
+                                        <span class="pathway-badge-name">SYNERGY</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Layer 2: Back -->
+                            <div class="card card-back card-rocketx">
+                                <div class="pathway-detail">
+                                    <div class="pathway-detail-header">
+                                        <div class="pathway-title">
+                                            <span class="pathway-title-icon align-color" id="rocketx-detail-icon">⟡</span>
+                                            <div class="pathway-title-text">
+                                                <span class="pathway-title-main" id="rocketx-detail-name">ALIGN</span>
+                                                <span class="pathway-title-sub" id="rocketx-detail-subtitle">DEX Aggregation</span>
+                                            </div>
+                                        </div>
+                                        <div class="back-button" onclick="flipCard('rocketx', false)">←</div>
+                                    </div>
+                                    <div class="pathway-stats">
+                                        <div class="pathway-stat">
+                                            <div class="pathway-stat-label">BITS</div>
+                                            <div class="pathway-stat-value" id="rocketx-detail-bits">9,143</div>
+                                        </div>
+                                        <div class="pathway-stat">
+                                            <div class="pathway-stat-label">BEATS</div>
+                                            <div class="pathway-stat-value" id="rocketx-detail-beats">834</div>
+                                        </div>
+                                    </div>
+                                    <div class="tier-progression">
+                                        <div class="tier-progression-header">
+                                            <span class="tier-current"><span id="rocketx-tier-emoji">🥈</span> <span id="rocketx-tier-name">Silver</span></span>
+                                            <span class="tier-next"><span id="rocketx-tier-progress">834 / 1,500</span> to <span id="rocketx-tier-next">Gold</span></span>
+                                        </div>
+                                        <div class="tier-progress-bar">
+                                            <div class="tier-progress-fill tier-progress-fill-yellow" id="rocketx-tier-fill" style="width: 56%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="detail-badges" id="rocketx-detail-badges"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Solana Card -->
+                    <div class="card-container">
+                        <div class="card-wrapper" id="solana-wrapper">
+                            <!-- Layer 1: Front -->
+                            <div class="card card-front card-solana">
+                                <div class="card-header">
+                                    <div class="card-logo">
+                                        <span class="card-icon">⚡</span>
+                                        <span class="card-name">SOLANA</span>
+                                    </div>
+                                    <div class="owner-id">
+                                        <span class="owner-address">Sol9...k4w</span>
+                                        <span class="owner-dropdown-icon">▾</span>
+                                    </div>
+                                </div>
+                                <div class="metrics">
+                                    <div class="metric">
+                                        <div class="metric-label">BITS Accumulated</div>
+                                        <div class="metric-value">14,287</div>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill progress-fill-solana" style="width: 85%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="metric">
+                                        <div class="metric-label">BEATS Achieved</div>
+                                        <div class="metric-value">2,156</div>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill progress-fill-solana" style="width: 91%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pathway-badges">
+                                    <div class="pathway-badge pathway-badge--align" data-pathway="align" data-card="solana">
+                                        <span class="pathway-badge-icon">⟡</span>
+                                        <span class="pathway-badge-name">ALIGN</span>
+                                    </div>
+                                    <div class="pathway-badge pathway-badge--alpha" data-pathway="alpha" data-card="solana">
+                                        <span class="pathway-badge-icon">α</span>
+                                        <span class="pathway-badge-name">ALPHA</span>
+                                    </div>
+                                    <div class="pathway-badge pathway-badge--karma" data-pathway="karma" data-card="solana">
+                                        <span class="pathway-badge-icon">☯</span>
+                                        <span class="pathway-badge-name">KARMA</span>
+                                    </div>
+                                    <div class="pathway-badge pathway-badge--synergy" data-pathway="synergy" data-card="solana">
+                                        <span class="pathway-badge-icon">∞</span>
+                                        <span class="pathway-badge-name">SYNERGY</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Layer 2: Back -->
+                            <div class="card card-back card-solana">
+                                <div class="pathway-detail">
+                                    <div class="pathway-detail-header">
+                                        <div class="pathway-title">
+                                            <span class="pathway-title-icon align-color" id="solana-detail-icon">⟡</span>
+                                            <div class="pathway-title-text">
+                                                <span class="pathway-title-main" id="solana-detail-name">ALIGN</span>
+                                                <span class="pathway-title-sub" id="solana-detail-subtitle">Program Interaction</span>
+                                            </div>
+                                        </div>
+                                        <div class="back-button" onclick="flipCard('solana', false)">←</div>
+                                    </div>
+                                    <div class="pathway-stats">
+                                        <div class="pathway-stat">
+                                            <div class="pathway-stat-label">BITS</div>
+                                            <div class="pathway-stat-value" id="solana-detail-bits">11,429</div>
+                                        </div>
+                                        <div class="pathway-stat">
+                                            <div class="pathway-stat-label">BEATS</div>
+                                            <div class="pathway-stat-value" id="solana-detail-beats">2,156</div>
+                                        </div>
+                                    </div>
+                                    <div class="tier-progression">
+                                        <div class="tier-progression-header">
+                                            <span class="tier-current"><span id="solana-tier-emoji">🥇</span> <span id="solana-tier-name">Gold</span></span>
+                                            <span class="tier-next"><span id="solana-tier-progress">2,156 / 5,000</span> to <span id="solana-tier-next">Diamond</span></span>
+                                        </div>
+                                        <div class="tier-progress-bar">
+                                            <div class="tier-progress-fill tier-progress-fill-solana" id="solana-tier-fill" style="width: 43%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="detail-badges" id="solana-detail-badges"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Layer 3: Tier Story Overlay -->
+    <div class="tier-story-overlay" id="tier-story-overlay" role="dialog" aria-modal="true" aria-labelledby="tier-story-title">
+        <div class="tier-story-card">
+            <button class="tier-story-close" onclick="closeTierStory()" aria-label="Close tier details">×</button>
+            <div class="tier-story-header">
+                <div class="tier-story-icon" id="tier-story-icon" aria-hidden="true">🥇</div>
+                <div class="tier-story-title-group">
+                    <h2 class="tier-story-title" id="tier-story-title">Gold Tier</h2>
+                    <p class="tier-story-pathway" id="tier-story-pathway">ALIGN • Macro VER$EID</p>
+                </div>
+            </div>
+            <div class="tier-story-requirement" id="tier-story-requirement">
+                Earn 1,500 BEATS through identity verification actions
+            </div>
+            <div class="tier-story-perks">
+                <h3 class="tier-story-perks-label">Unlocked Perks</h3>
+                <div class="tier-story-perks-list" id="tier-story-perks-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Pathway Details</h2>
+                <button class="modal-close" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-content" id="modalContent">
+                <p>Loading...</p>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeModal()">Close</button>
+                <button class="btn btn-primary" onclick="startPathway()">Start Journey →</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const pathwayData = {
+            align: {
+                title: 'ALIGN - Identity Verification',
+                content: `
+                    <h3 style="margin-bottom: 16px; color: var(--align-accent);">Establish Your Universal Identity</h3>
+                    <p style="margin-bottom: 16px;">
+                        ALIGN is your gateway to trusted Web3 interactions. By verifying your identity
+                        across multiple chains, you unlock higher trust scores and access to premium features.
+                    </p>
+                    <h4 style="margin: 24px 0 12px; font-size: 18px;">Key Features:</h4>
+                    <ul style="margin-left: 20px; line-height: 2;">
+                        <li>Multi-chain identity aggregation</li>
+                        <li>Social attestations from trusted validators</li>
+                        <li>Zero-knowledge proof verification</li>
+                        <li>Progressive trust score building</li>
+                        <li>Sybil resistance mechanisms</li>
+                    </ul>
+                    <h4 style="margin: 24px 0 12px; font-size: 18px;">Rewards:</h4>
+                    <p>
+                        Earn BITS for each verification milestone. Higher trust scores unlock better
+                        quest rewards and governance rights.
+                    </p>
+                `
+            },
+            alpha: {
+                title: 'ALPHA - DeFi Trading',
+                content: `
+                    <h3 style="margin-bottom: 16px; color: var(--alpha-accent);">Master Multi-Chain DeFi</h3>
+                    <p style="margin-bottom: 16px;">
+                        ALPHA pathway gives you access to sophisticated DeFi strategies across all major
+                        chains with AI-powered insights and automated execution.
+                    </p>
+                    <h4 style="margin: 24px 0 12px; font-size: 18px;">Trading Tools:</h4>
+                    <ul style="margin-left: 20px; line-height: 2;">
+                        <li>Cross-DEX aggregation for best prices</li>
+                        <li>AI strategy recommendations</li>
+                        <li>Automated portfolio rebalancing</li>
+                        <li>Risk management dashboards</li>
+                        <li>Gas optimization across chains</li>
+                    </ul>
+                    <h4 style="margin: 24px 0 12px; font-size: 18px;">Earn More:</h4>
+                    <p>
+                        Trading volume contributes to your VER$EID score. High-performance traders
+                        unlock exclusive alpha channels and early access to new protocols.
+                    </p>
+                `
+            },
+            karma: {
+                title: 'KARMA - Community Engagement',
+                content: `
+                    <h3 style="margin-bottom: 16px; color: var(--karma-accent);">Build Reputation Through Action</h3>
+                    <p style="margin-bottom: 16px;">
+                        KARMA rewards meaningful contributions to the ecosystem. Help others, participate
+                        in governance, and shape the future of the platform.
+                    </p>
+                    <h4 style="margin: 24px 0 12px; font-size: 18px;">Ways to Earn:</h4>
+                    <ul style="margin-left: 20px; line-height: 2;">
+                        <li>Mentor new users and complete referrals</li>
+                        <li>Participate in governance proposals</li>
+                        <li>Contribute to protocol development</li>
+                        <li>Create educational content</li>
+                        <li>Moderate community channels</li>
+                    </ul>
+                    <h4 style="margin: 24px 0 12px; font-size: 18px;">Benefits:</h4>
+                    <p>
+                        High KARMA scores unlock governance rights, exclusive community events,
+                        and increased voting power in platform decisions.
+                    </p>
+                `
+            },
+            synergy: {
+                title: 'SYNERGY - Network Interoperability',
+                content: `
+                    <h3 style="margin-bottom: 16px; color: var(--synergy-accent);">Bridge The Multichain Future</h3>
+                    <p style="margin-bottom: 16px;">
+                        SYNERGY enables seamless asset and data flow between chains. Build truly
+                        composable applications that leverage the best of every ecosystem.
+                    </p>
+                    <h4 style="margin: 24px 0 12px; font-size: 18px;">Capabilities:</h4>
+                    <ul style="margin-left: 20px; line-height: 2;">
+                        <li>Cross-chain asset bridging</li>
+                        <li>Message passing between protocols</li>
+                        <li>Unified liquidity pools</li>
+                        <li>Multi-chain smart contract calls</li>
+                        <li>Atomic cross-chain swaps</li>
+                    </ul>
+                    <h4 style="margin: 24px 0 12px; font-size: 18px;">Developer Tools:</h4>
+                    <p>
+                        Access SDKs and APIs for building cross-chain dApps. Earn rewards for
+                        contributing to interoperability infrastructure.
+                    </p>
+                `
+            }
+        };
+
+        function openModal(pathway) {
+            const modal = document.getElementById('modal');
+            const data = pathwayData[pathway];
+
+            document.getElementById('modalTitle').textContent = data.title;
+            document.getElementById('modalContent').innerHTML = data.content;
+
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+
+        function startPathway() {
+            alert('Starting pathway journey! This would redirect to the pathway experience.');
+            closeModal();
+        }
+
+        // Close modal on overlay click
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Close modal on ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // ═══════════════════════════════════════════════════════════════
+        // PAGE SWITCHING SYSTEM
+        // ═══════════════════════════════════════════════════════════════
+
+        function switchPage(pageName) {
+            // Hide all pages
+            const allPages = document.querySelectorAll('.page-section');
+            allPages.forEach(page => {
+                page.style.display = 'none';
+            });
+
+            // Show selected page
+            const selectedPage = document.querySelector(`.page-section[data-page="${pageName}"]`);
+            if (selectedPage) {
+                selectedPage.style.display = 'block';
+            }
+
+            // Update nav active state
+            const allNavItems = document.querySelectorAll('.nav-item');
+            allNavItems.forEach(item => {
+                item.classList.remove('active');
+            });
+
+            const activeNavItem = document.querySelector(`.nav-item[data-page="${pageName}"]`);
+            if (activeNavItem) {
+                activeNavItem.classList.add('active');
+            }
+
+            // Scroll to top
+            document.querySelector('.main-content').scrollTop = 0;
+        }
+
+        // Initialize navigation click handlers
+        document.addEventListener('DOMContentLoaded', function() {
+            const navItems = document.querySelectorAll('.nav-item[data-page]');
+            navItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const pageName = this.getAttribute('data-page');
+                    switchPage(pageName);
+                });
+            });
+
+            // Show first page by default (protocol)
+            switchPage('protocol');
+        });
+    </script>
+
+    <!-- VER$EID Card Engine -->
+    <script src="verseid-card-engine.js"></script>
+</body>
+</html>
