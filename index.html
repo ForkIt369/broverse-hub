@@ -558,36 +558,331 @@
         .stat-card:nth-child(3) { --stat-color: var(--karma-accent); }
         .stat-card:nth-child(4) { --stat-color: var(--synergy-accent); }
 
-        /* Responsive */
+        /* Mobile Menu Button */
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: calc(var(--grid) * 2);
+            left: calc(var(--grid) * 2);
+            z-index: 2000;
+            width: 44px;
+            height: 44px;
+            background: var(--bg-secondary);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: calc(var(--grid) * 1);
+            cursor: pointer;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            transition: all var(--transition);
+        }
+
+        .menu-toggle:hover {
+            background: rgba(0, 195, 255, 0.1);
+            border-color: #00C3FF;
+        }
+
+        .menu-toggle span {
+            width: 18px;
+            height: 2px;
+            background: #00C3FF;
+            border-radius: 2px;
+            transition: all var(--transition);
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* Mobile Overlay */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity var(--transition);
+            pointer-events: none;
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* Performance Optimizations */
+        .pathway-card,
+        .quest-card,
+        .stat-card,
+        .nav-item {
+            will-change: transform;
+        }
+
+        .pathway-card:hover,
+        .quest-card:hover {
+            will-change: transform, box-shadow;
+        }
+
+        /* Smooth Entrance Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .page-section {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        /* Responsive Breakpoints */
+
+        /* Large Tablets & Small Laptops */
         @media (max-width: 1024px) {
             .sidebar {
                 width: 240px;
             }
             .main-content {
                 margin-left: 240px;
+                padding: calc(var(--grid) * 4);
             }
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
+            .quest-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
         }
 
+        /* Tablets */
         @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .sidebar-overlay {
+                display: block;
+            }
+
             .sidebar {
                 transform: translateX(-100%);
-                transition: transform var(--transition);
+                transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+                z-index: 1000;
+                box-shadow: 2px 0 20px rgba(0, 0, 0, 0.3);
             }
+
             .sidebar.active {
                 transform: translateX(0);
             }
+
             .main-content {
                 margin-left: 0;
-                padding: calc(var(--grid) * 3);
+                padding: calc(var(--grid) * 4);
+                padding-top: calc(var(--grid) * 10); /* Space for menu button */
             }
+
             .page-title {
                 font-size: 32px;
             }
+
+            .page-description {
+                font-size: 16px;
+            }
+
             .pathways-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: calc(var(--grid) * 2);
+            }
+
+            .quest-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Mobile Landscape & Large Phones */
+        @media (max-width: 640px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: calc(var(--grid) * 2);
+            }
+
+            .stat-value {
+                font-size: 28px;
+            }
+
+            .stat-label {
+                font-size: 10px;
+            }
+
+            .main-content {
+                padding: calc(var(--grid) * 3);
+                padding-top: calc(var(--grid) * 9);
+            }
+
+            .page-title {
+                font-size: 28px;
+            }
+
+            .section-title {
+                font-size: 24px;
+            }
+
+            .quest-card {
+                padding: calc(var(--grid) * 2.5);
+            }
+        }
+
+        /* Small Mobile Phones */
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: calc(var(--grid) * 2);
+            }
+
+            .stat-card {
+                padding: calc(var(--grid) * 2);
+            }
+
+            .page-title {
+                font-size: 24px;
+                letter-spacing: -0.5px;
+            }
+
+            .page-description {
+                font-size: 14px;
+            }
+
+            .main-content {
+                padding: calc(var(--grid) * 2);
+                padding-top: calc(var(--grid) * 8);
+            }
+
+            .pathway-card,
+            .quest-card {
+                padding: calc(var(--grid) * 2);
+            }
+
+            .nav-item {
+                font-size: 14px;
+                padding: calc(var(--grid) * 1.5) calc(var(--grid) * 2);
+            }
+
+            .modal {
+                width: 95%;
+                padding: calc(var(--grid) * 4);
+            }
+
+            .modal-title {
+                font-size: 24px;
+            }
+        }
+
+        /* Touch-Friendly Targets */
+        @media (hover: none) and (pointer: coarse) {
+            .nav-item,
+            .quest-card,
+            .pathway-card,
+            .view-all-btn,
+            .btn {
+                min-height: 44px;
+                min-width: 44px;
+            }
+
+            .pathway-card:active,
+            .quest-card:active {
+                transform: scale(0.98);
+            }
+        }
+
+        /* Focus States for Accessibility */
+        .nav-item:focus,
+        .quest-card:focus,
+        .pathway-card:focus,
+        .btn:focus,
+        .view-all-btn:focus,
+        .menu-toggle:focus {
+            outline: 2px solid #00C3FF;
+            outline-offset: 2px;
+        }
+
+        /* Better Shadows and Depth */
+        .stat-card {
+            transition: all var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 195, 255, 0.1);
+            border-color: rgba(0, 195, 255, 0.2);
+        }
+
+        /* Micro-interactions */
+        .quest-badge {
+            transition: all var(--transition);
+        }
+
+        .quest-card:hover .quest-badge {
+            transform: scale(1.05);
+        }
+
+        .view-all-btn {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .view-all-btn::after {
+            content: '→';
+            position: absolute;
+            right: 12px;
+            opacity: 0;
+            transition: all var(--transition);
+        }
+
+        .view-all-btn:hover::after {
+            opacity: 1;
+            right: 8px;
+        }
+
+        /* VER$EID Card Wrapper Responsive */
+        @media (max-width: 768px) {
+            .verseid-cards-container {
+                padding: calc(var(--grid) * 2);
+            }
+
+            /* Scale cards proportionally on mobile */
+            .card-wrapper {
+                transform: scale(0.95);
+                transform-origin: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card-wrapper {
+                transform: scale(0.85);
             }
         }
 
@@ -611,9 +906,19 @@
     </style>
 </head>
 <body>
+    <!-- Mobile Menu Toggle -->
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <!-- Mobile Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
     <div class="app-container">
         <!-- Sidebar Navigation -->
-        <nav class="sidebar">
+        <nav class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="logo">BroVerse</div>
             </div>
@@ -1855,6 +2160,40 @@
             if (e.key === 'Escape') {
                 closeModal();
             }
+        });
+
+        // ═══════════════════════════════════════════════════════════════
+        // MOBILE MENU TOGGLE
+        // ═══════════════════════════════════════════════════════════════
+
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        function toggleMenu() {
+            menuToggle.classList.toggle('active');
+            sidebar.classList.toggle('active');
+            sidebarOverlay.classList.toggle('active');
+
+            // Prevent body scroll when menu is open
+            if (sidebar.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        }
+
+        menuToggle.addEventListener('click', toggleMenu);
+        sidebarOverlay.addEventListener('click', toggleMenu);
+
+        // Close menu when clicking nav items on mobile
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    toggleMenu();
+                }
+            });
         });
 
         // ═══════════════════════════════════════════════════════════════
