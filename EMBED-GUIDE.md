@@ -9,10 +9,12 @@ The BROVERSE Hub is fully embeddable in any website, Notion page, or web applica
 ## 🔗 Production URL
 
 ```
-https://bcol-9yz4qsh9l-will31s-projects.vercel.app
+https://bcol-pi.vercel.app
 ```
 
-**Note**: The main file is `index.html` for Vercel compatibility.
+**Alternative URLs**:
+- https://bcol-will31s-projects.vercel.app
+- https://bcol-git-main-will31s-projects.vercel.app
 
 ---
 
@@ -22,7 +24,7 @@ https://bcol-9yz4qsh9l-will31s-projects.vercel.app
 
 ```html
 <iframe
-  src="https://bcol-9yz4qsh9l-will31s-projects.vercel.app"
+  src="https://bcol-pi.vercel.app"
   width="100%"
   height="100vh"
   frameborder="0"
@@ -36,7 +38,7 @@ https://bcol-9yz4qsh9l-will31s-projects.vercel.app
 
 ```html
 <iframe
-  src="https://bcol-9yz4qsh9l-will31s-projects.vercel.app"
+  src="https://bcol-pi.vercel.app"
   width="100%"
   height="800"
   frameborder="0"
@@ -51,7 +53,7 @@ https://bcol-9yz4qsh9l-will31s-projects.vercel.app
 ```html
 <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
   <iframe
-    src="https://bcol-9yz4qsh9l-will31s-projects.vercel.app"
+    src="https://bcol-pi.vercel.app"
     style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
     frameborder="0"
     allow="clipboard-write"
@@ -65,13 +67,13 @@ https://bcol-9yz4qsh9l-will31s-projects.vercel.app
 ## 🎨 Notion Embed
 
 1. Type `/embed` in Notion
-2. Paste the URL: `https://bcol-9yz4qsh9l-will31s-projects.vercel.app`
+2. Paste the URL: `https://bcol-pi.vercel.app`
 3. Press Enter
 
 **Or use this code block:**
 
 ```
-/embed https://bcol-9yz4qsh9l-will31s-projects.vercel.app
+/embed https://bcol-pi.vercel.app
 ```
 
 ---
@@ -80,7 +82,7 @@ https://bcol-9yz4qsh9l-will31s-projects.vercel.app
 
 ```html
 <iframe
-  src="https://bcol-9yz4qsh9l-will31s-projects.vercel.app"
+  src="https://bcol-pi.vercel.app"
   width="100%"
   height="100vh"
   frameborder="0"
@@ -98,11 +100,11 @@ https://bcol-9yz4qsh9l-will31s-projects.vercel.app
 You can link directly to specific experiences (coming soon with hash routing):
 
 ```
-https://bcol-9yz4qsh9l-will31s-projects.vercel.app#protocol
-https://bcol-9yz4qsh9l-will31s-projects.vercel.app#verseid
-https://bcol-9yz4qsh9l-will31s-projects.vercel.app#brobeats
-https://bcol-9yz4qsh9l-will31s-projects.vercel.app#brovibes
-https://bcol-9yz4qsh9l-will31s-projects.vercel.app#brosfit
+https://bcol-pi.vercel.app#protocol
+https://bcol-pi.vercel.app#verseid
+https://bcol-pi.vercel.app#brobeats
+https://bcol-pi.vercel.app#brovibes
+https://bcol-pi.vercel.app#brosfit
 ```
 
 ---
@@ -115,7 +117,7 @@ https://bcol-9yz4qsh9l-will31s-projects.vercel.app#brosfit
 
 ```html
 <iframe
-  src="https://bcol-9yz4qsh9l-will31s-projects.vercel.app"
+  src="https://bcol-pi.vercel.app"
   width="100%"
   height="800"
   frameborder="0"
@@ -133,7 +135,7 @@ https://bcol-9yz4qsh9l-will31s-projects.vercel.app#brosfit
 function BroVerseHub() {
   return (
     <iframe
-      src="https://bcol-9yz4qsh9l-will31s-projects.vercel.app"
+      src="https://bcol-pi.vercel.app"
       width="100%"
       height="100vh"
       frameBorder="0"
